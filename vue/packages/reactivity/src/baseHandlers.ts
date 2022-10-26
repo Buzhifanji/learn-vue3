@@ -192,6 +192,9 @@ function createGetter(isReadonly = false, shallow = false) {
 const set = /*#__PURE__*/ createSetter();
 const shallowSet = /*#__PURE__*/ createSetter(true);
 
+/**
+ * 创建 setter
+ */
 function createSetter(shallow = false) {
   return function set(
     target: object,
@@ -199,15 +202,21 @@ function createSetter(shallow = false) {
     value: unknown,
     receiver: object
   ): boolean {
+    // 读取旧属性值
     let oldValue = (target as any)[key];
+    // 如果 旧属性值是只读并且是Ref,而新值不是Ref，就返回false，意味着不会更新
     if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
       return false;
     }
     if (!shallow) {
+      // 既不是 浅代理，又不是只读
       if (!isShallow(value) && !isReadonly(value)) {
+        // 获取原始值
         oldValue = toRaw(oldValue);
         value = toRaw(value);
       }
+      // 目标target 不是数组，并且 旧值是Ref，新值不是 Ref，则直接把把新值赋值到旧属性值上
+      // 因为旧属性值为 Ref类型，Ref对象也是一个响应式对象，更新value时，会触发收集副作用函数压入调度器中
       if (!isArray(target) && isRef(oldValue) && !isRef(value)) {
         oldValue.value = value;
         return true;
@@ -216,16 +225,21 @@ function createSetter(shallow = false) {
       // in shallow mode, objects are set as-is regardless of reactive or not
     }
 
+    // 用于判断是新增还是修改属性
     const hadKey =
       isArray(target) && isIntegerKey(key)
         ? Number(key) < target.length
         : hasOwn(target, key);
+
+    // 通过 Reflect.set 更新属性
     const result = Reflect.set(target, key, value, receiver);
     // don't trigger if target is something up in the prototype chain of original
     if (target === toRaw(receiver)) {
       if (!hadKey) {
+        // 触发 新增属性 的副作用函数压入调度器中
         trigger(target, TriggerOpTypes.ADD, key, value);
       } else if (hasChanged(value, oldValue)) {
+        // 触发 更改属性 的副作用函数压入调度器中
         trigger(target, TriggerOpTypes.SET, key, value, oldValue);
       }
     }
