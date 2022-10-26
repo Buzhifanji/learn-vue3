@@ -115,15 +115,16 @@ function createArrayInstrumentations() {
  */
 function createGetter(isReadonly = false, shallow = false) {
   return function get(target: Target, key: string | symbol, receiver: object) {
-    // 处理 key 为 ReactiveFlags 特殊标识符 的情况
+    //此处结合 isReactive 这个 api 一起来看会更容易理解
+    // 当 调用 isReactive api的时候，如果不是只读，会读取 key 为 ReactiveFlags.IS_REACTIVE的属性，然后会执行get，进入此函数
     if (key === ReactiveFlags.IS_REACTIVE) {
-      // 是不是reactive
+      // 判断 是不是 isReactive
       return !isReadonly;
     } else if (key === ReactiveFlags.IS_READONLY) {
-      //是不是只读的
+      // 判断 是不是 isReadonly
       return isReadonly;
     } else if (key === ReactiveFlags.IS_SHALLOW) {
-      // 是不是浅层响应式
+      // 判断 是不是 isShallow
       return shallow;
     } else if (
       // 原始值
