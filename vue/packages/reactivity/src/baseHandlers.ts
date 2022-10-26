@@ -247,6 +247,10 @@ function createSetter(shallow = false) {
   };
 }
 
+/**
+ * 拦截删除属性
+ * 调用  Reflect.deleteProperty 删除属性，然后将触发 删除属性的副作用函数压入调度器中
+ */
 function deleteProperty(target: object, key: string | symbol): boolean {
   const hadKey = hasOwn(target, key);
   const oldValue = (target as any)[key];
@@ -257,6 +261,10 @@ function deleteProperty(target: object, key: string | symbol): boolean {
   return result;
 }
 
+/**
+ * 拦截 has 判断是否有某个属性
+ * 调用 Reflect.has，过滤内置Symbol属性，然后将触发 has属性的副作用函数压入调度器中
+ */
 function has(target: object, key: string | symbol): boolean {
   const result = Reflect.has(target, key);
   if (!isSymbol(key) || !builtInSymbols.has(key)) {
@@ -265,6 +273,10 @@ function has(target: object, key: string | symbol): boolean {
   return result;
 }
 
+/**
+ * 拦截遍历操作
+ * 如果是数组，则追踪数组的length属性，反之是有effect模块提供的 ITERATE_KEY
+ */
 function ownKeys(target: object): (string | symbol)[] {
   track(target, TrackOpTypes.ITERATE, isArray(target) ? "length" : ITERATE_KEY);
   return Reflect.ownKeys(target);
@@ -278,6 +290,7 @@ export const mutableHandlers: ProxyHandler<object> = {
   ownKeys,
 };
 
+// 只读 没有 setter，也没有 deleteProperty
 export const readonlyHandlers: ProxyHandler<object> = {
   get: readonlyGet,
   set(target, key) {
