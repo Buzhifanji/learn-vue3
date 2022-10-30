@@ -1,6 +1,6 @@
-import { ReactiveEffect, trackOpBit } from './effect'
+import { ReactiveEffect, trackOpBit } from "./effect";
 
-export type Dep = Set<ReactiveEffect> & TrackedMarkers
+export type Dep = Set<ReactiveEffect> & TrackedMarkers;
 
 /**
  * wasTracked and newTracked maintain the status for several levels of effect
@@ -11,47 +11,50 @@ type TrackedMarkers = {
   /**
    * wasTracked
    */
-  w: number
+  w: number;
   /**
    * newTracked
    */
-  n: number
-}
+  n: number;
+};
 
 export const createDep = (effects?: ReactiveEffect[]): Dep => {
-  const dep = new Set<ReactiveEffect>(effects) as Dep
-  dep.w = 0
-  dep.n = 0
-  return dep
-}
+  const dep = new Set<ReactiveEffect>(effects) as Dep;
+  dep.w = 0;
+  dep.n = 0;
+  return dep;
+};
 
-export const wasTracked = (dep: Dep): boolean => (dep.w & trackOpBit) > 0
+/** 用于判断是否已经收集过了 */
+export const wasTracked = (dep: Dep): boolean => (dep.w & trackOpBit) > 0;
 
-export const newTracked = (dep: Dep): boolean => (dep.n & trackOpBit) > 0
+/** 用于判断是否为新的依赖 */
+export const newTracked = (dep: Dep): boolean => (dep.n & trackOpBit) > 0;
 
+/** 将当前副作用函数标记 为已经被收集*/
 export const initDepMarkers = ({ deps }: ReactiveEffect) => {
   if (deps.length) {
     for (let i = 0; i < deps.length; i++) {
-      deps[i].w |= trackOpBit // set was tracked
+      deps[i].w |= trackOpBit; // set was tracked
     }
   }
-}
+};
 
 export const finalizeDepMarkers = (effect: ReactiveEffect) => {
-  const { deps } = effect
+  const { deps } = effect;
   if (deps.length) {
-    let ptr = 0
+    let ptr = 0;
     for (let i = 0; i < deps.length; i++) {
-      const dep = deps[i]
+      const dep = deps[i];
       if (wasTracked(dep) && !newTracked(dep)) {
-        dep.delete(effect)
+        dep.delete(effect);
       } else {
-        deps[ptr++] = dep
+        deps[ptr++] = dep;
       }
       // clear bits
-      dep.w &= ~trackOpBit
-      dep.n &= ~trackOpBit
+      dep.w &= ~trackOpBit;
+      dep.n &= ~trackOpBit;
     }
-    deps.length = ptr
+    deps.length = ptr;
   }
-}
+};
