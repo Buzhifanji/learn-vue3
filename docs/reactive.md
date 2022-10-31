@@ -6,10 +6,14 @@
 
 ## 源码函数调用
 
+`reactive`
+
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+    A(reactive)-->B{isReadonly}--否-->D[createReactiveObject]-->E{isObject}--是-->F{IS_REACTIVE}--否-->G{existingProxy缓存}--否-->H{targetType}--不是INVALID-->N[new Proxy]-->K[返回proxy];
+    B{isReadonly}--只读-->C[结束并返回原对象]
+    E{isObject}--否-->C
+    F[IS_REACTIVE]--是-->L[结束并返回响应式对象]
+    G{existingProxy缓存}--是-->M[结束并返回existingProxy]
+    H{targetType}--是INVALID-->C
 ```
