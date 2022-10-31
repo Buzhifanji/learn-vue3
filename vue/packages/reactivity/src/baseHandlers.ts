@@ -95,7 +95,7 @@ function createArrayInstrumentations() {
    */
   (["push", "pop", "shift", "unshift", "splice"] as const).forEach((key) => {
     instrumentations[key] = function (this: unknown[], ...args: unknown[]) {
-      // 开启 依赖收集
+      // 暂停 依赖收集
       pauseTracking();
       // 执行 数组api方法
       const res = (toRaw(this) as any)[key].apply(this, args);
