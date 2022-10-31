@@ -153,17 +153,20 @@ export class ReactiveEffect<T = any> {
   stop() {
     // stopped while running itself - defer the cleanup
     if (activeEffect === this) {
+      // 开启延迟停止
       this.deferStop = true;
     } else if (this.active) {
+      // 删除当前 ReactiveEffect 中的dep 依赖数据
       cleanupEffect(this);
       if (this.onStop) {
         this.onStop();
       }
-      this.active = false;
+      this.active = false; // 关闭收集依赖
     }
   }
 }
 
+// 清空依赖数据（清除副作用函数effect)
 function cleanupEffect(effect: ReactiveEffect) {
   const { deps } = effect;
   if (deps.length) {
@@ -192,6 +195,7 @@ export interface ReactiveEffectRunner<T = any> {
   effect: ReactiveEffect;
 }
 
+// 用于包裹 副作用函数
 export function effect<T = any>(
   fn: () => T,
   options?: ReactiveEffectOptions
@@ -200,36 +204,45 @@ export function effect<T = any>(
     fn = (fn as ReactiveEffectRunner).effect.fn;
   }
 
+  // 实例 化 ReactiveEffect 对象
   const _effect = new ReactiveEffect(fn);
   if (options) {
+    // 合并属性
     extend(_effect, options);
-    if (options.scope) recordEffectScope(_effect, options.scope);
+    if (options.scope) recordEffectScope(_effect, options.scope); // 记录作用域
   }
   if (!options || !options.lazy) {
+    // 不是延迟，就会里面执行 ReactiveEffect 对象 run 方法
     _effect.run();
   }
+  // 手动绑定run方法的this
   const runner = _effect.run.bind(_effect) as ReactiveEffectRunner;
   runner.effect = _effect;
   return runner;
 }
 
+// 停止副作用函数执行
 export function stop(runner: ReactiveEffectRunner) {
   runner.effect.stop();
 }
-
-export let shouldTrack = true;
+// 控制依赖收集标识
+export let shouldTrack = true; // 是否可以发收集依赖
 const trackStack: boolean[] = [];
 
+// 暂停依赖收集
 export function pauseTracking() {
   trackStack.push(shouldTrack);
   shouldTrack = false;
 }
 
+// 开启依赖收集（此函数还被调用，所以。。。待定）
 export function enableTracking() {
   trackStack.push(shouldTrack);
   shouldTrack = true;
 }
 
+// 重置依赖收集
+// 从 栈中取出 最新一条数据赋值给shouldTrack
 export function resetTracking() {
   const last = trackStack.pop();
   shouldTrack = last === undefined ? true : last;
