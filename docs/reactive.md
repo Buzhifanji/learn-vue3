@@ -9,7 +9,7 @@
 `reactive`
 
 ```mermaid
-graph LR;
+graph TD;
     A(reactive)-->B{isReadonly}--否-->D[createReactiveObject]-->E{isObject}--是-->F{IS_REACTIVE}--否-->G{existingProxy缓存}--否-->H{targetType}--不是INVALID-->N[new Proxy]-->K[返回proxy];
     B{isReadonly}--只读-->C[结束并返回原对象]
     E{isObject}--否-->C
