@@ -1,0 +1,11 @@
+{
+  "name": "learn-vue",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "doc:start": "pnpm -C docs start",
+    "doc:build": "pnpm -C docs build",
+    "doc:clear": "pnpm -C docs clear",
+    "vue:dev": "pnpm -C vue3 dev"
+  }
+}
