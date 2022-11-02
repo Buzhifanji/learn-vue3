@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[583],{4689:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"\u54cd\u5e94\u5f0f\u7cfb\u7edf\u7684\u5de5\u4f5c\u539f\u7406","permalink":"/vue/responsvie"},{"title":"Scrollycoding","permalink":"/vue/ddt"}]}')}}]);
