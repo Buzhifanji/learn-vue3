@@ -1,4 +1,3 @@
-import "@code-hike/mdx/dist/index.css";
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
@@ -17,7 +16,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/vue/ddt">
+            to="/vue/responsvie">
             开启 ⏱️
           </Link>
         </div>

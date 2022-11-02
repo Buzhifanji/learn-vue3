@@ -1,0 +1,191 @@
+---
+slug: responsvie
+title: 响应式系统的工作原理
+authors: Buzhifanji
+tags: [vue3, 响应式]
+---
+
+## 前言
+
+目前主流前端框架都有一个共同特点：**数据驱动视图**。我们先理解来数据驱动视图是什么意思？
+
+我们所看到界面是会变化的，也就是说页面是动态的。页面变化前后是两种不同的状态，一种状态对应着一种视图。
+我们可以用数据记录视图的状态。如此，当数据发生了变化，视图就应该更新。当输入的数据变化了，就更新视图，这个就数据驱动视图
+
+## 侦测数据变化
+
+如果数据的每次读写操作都看见了，那么我们就能够知道数据何时读取，何时修改。
+
+要实现这样的侦测数据变化功能，我们需要 [Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy) 和 [Reflect](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect) 这两个`API` 。
+
+<CH.Spotlight>
+
+```js index.js
+const person = {
+  name: "li",
+  age: 18,
+};
+
+const newPerson = new Proxy(person, {
+  get(target, key, receiver) {
+    console.log(`读取了属性：${key}`);
+    return Reflect.get(target, key, receiver);
+  },
+  set(target, key, value, receiver) {
+    console.log(`属性${key}更改为${value}`);
+    return Reflect.set(target, key, value, receiver);
+  },
+});
+
+newPerson.name; // 读取了属性：name
+newPerson.age = 19; // 属性age更改为19
+```
+
+---
+
+首先，我们定义一个数据对象 person：
+
+```js index.js focus=1:4
+
+```
+
+---
+
+接下来，我们定义 person 读取拦截的操作，也就是定义 getter
+
+```js index.js focus=7:10
+
+```
+
+---
+
+接着，定义 person 修改拦截的操作，也就是定义 setter
+
+```js index.js focus=11:14
+
+```
+
+---
+
+测试侦听读取数据
+
+```js index.js focus=16:17
+
+```
+
+---
+
+测试侦听修改数据
+
+```js index.js focus=18:19
+
+```
+
+</CH.Spotlight>
+
+> 如果你想深入了解为什么 Proxy 一定要配合 Reflect 使用，可以参考
+> [js-proxy-reflect](https://www.zhangxinxu.com/wordpress/2021/07/js-proxy-reflect/)和
+> [为什么 Proxy 一定要配合 Reflect 使用？](https://juejin.cn/post/7080916820353351688)这两篇文章
+
+通过上面的示例，我们简单实现了监听对象的读取操作。接下来我们来理解副作用函数这个概念。
+
+## 副作用函数
+
+副作用函数是 `vue3` 中底层的概念，这个是响应式系统核心的一部分。**副作用函数指的是会产生副作用的函数**，看起来有点绕口，下面以例子来理解副作用函数。
+
+<CH.Spotlight>
+
+我们定义了 `effect` 函数，这个函数执行的时候，它会设置 `body` 的文本内容，但除了 `effect` 函数之外，
+其它的任何函数都可以读取或者设置 `body` 的文本内容。也就是 `effect` 函数的执行会直接或间接的影响其它函数的执行，此时我们说 `effect` 函数产生了副作用。
+
+```js effect.js
+function effect() {
+  document.body.innerText = "hello effect";
+}
+```
+
+</CH.Spotlight>
+
+## 响应式数据
+
+前面我实现了拦截数据的读取操作，接下来我们把拦截操作和`effect` 副作用函数结合起来，实现一个简单响应式数据。
+
+<CH.Spotlight>
+
+```js index.js
+let activeEffect;
+let dep = new Set();
+
+function effect(fn) {
+  activeEffect = fn;
+  fn();
+}
+
+function reactive(target) {
+  return new Proxy(target, {
+    get(target, key, receiver) {
+      const res = Reflect.get(target, key, receiver);
+      if (activeEffect) {
+        dep.add(activeEffect);
+      }
+      return res;
+    },
+    set(target, key, value, receiver) {
+      const res = Reflect.set(target, key, value, receiver);
+      dep.forEach((fn) => fn());
+      return res;
+    },
+  });
+}
+
+const obj = reactive({ name: "a" });
+effect(() => console.log("effect: " + obj.name));
+setTimeout(() => {
+  obj.name = "hello";
+}, 1000);
+```
+
+---
+
+**第一步**，我们定义两个全局变量 `activeEffect` 和 `dep`。`activeEffect` 缓存被注册的副作用函数，而`dep`用于存储副作用函数。
+
+> 选择 `Set` 而不是数组数据结构，是因为`Set`可以帮我们处理数据重复问题。
+
+```js index.js focus=1:2
+
+```
+
+---
+
+**第二步**，定义 `effect` 函数，此时函数执行的时候，会参数 `fn` 赋值给 `activeEffect`，这样就缓存了 `effect`注册的副作用函数
+
+```js index.js focus=4:8
+
+```
+
+---
+
+**第三步**，定义 `reactive` 函数，拦截数据的读写操作。数据读取的时候，会把被注册的副作用函`activeEffect` 存入到`dep`中，
+数据更改的时候，会把`dep`中存储的副作用函数取出来，并执行。
+
+```js index.js focus=9:24
+
+```
+
+---
+
+上面，我们就实现了响应式数据。接下来就是测试一下。首先调用`reactive`声明一个响应式对象，然后调用`effect`注册副作用函数，这个副作用函数执行的时候会读取响应式对象属性。
+当响应式对象的属性值被修改时，副作用函数会触发执行。
+
+```js index.js focus=26:30
+
+```
+
+</CH.Spotlight>
+
+从上面的内容案例可以看出，一个响应式系统的工作流程如下：
+
+- 当**读取**操作发生时，将副作用函数收集起来。
+- 当**设置**操作发生时，将收集起来的副作用函数取出并执行。
+
+以上就是`vue3`响应式数据的基本实现和工作原理
