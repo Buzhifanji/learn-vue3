@@ -4,10 +4,18 @@
         <title>深入Vue3系列 Blog</title>
         <link>https://buzhifanji.github.io/vue</link>
         <description>深入Vue3系列 Blog</description>
-        <lastBuildDate>Wed, 02 Nov 2022 12:10:02 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 02 Nov 2022 12:39:11 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>zh</language>
+        <item>
+            <title><![CDATA[响应式系统之reactive]]></title>
+            <link>https://buzhifanji.github.io/vue/reactive</link>
+            <guid>/reactive</guid>
+            <pubDate>Wed, 02 Nov 2022 12:39:11 GMT</pubDate>
+            <category>vue3</category>
+            <category>响应式</category>
+        </item>
         <item>
             <title><![CDATA[响应式系统的工作原理]]></title>
             <link>https://buzhifanji.github.io/vue/responsvie</link>
