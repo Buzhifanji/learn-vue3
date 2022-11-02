@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://buzhifanji.github.io/vue</id>
+    <id>https://buzhifanji.github.io/learn-vue3/vue</id>
     <title>深入Vue3系列 Blog</title>
     <updated>2022-11-02T12:39:11.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://buzhifanji.github.io/vue"/>
+    <link rel="alternate" href="https://buzhifanji.github.io/learn-vue3/vue"/>
     <subtitle>深入Vue3系列 Blog</subtitle>
-    <icon>https://buzhifanji.github.io/img/favicon.ico</icon>
+    <icon>https://buzhifanji.github.io/learn-vue3/img/favicon.ico</icon>
     <entry>
         <title type="html"><![CDATA[响应式系统之reactive]]></title>
         <id>/reactive</id>
-        <link href="https://buzhifanji.github.io/vue/reactive"/>
+        <link href="https://buzhifanji.github.io/learn-vue3/vue/reactive"/>
         <updated>2022-11-02T12:39:11.000Z</updated>
         <author>
             <name>Buzhifanji</name>
@@ -22,7 +22,7 @@
     <entry>
         <title type="html"><![CDATA[响应式系统的工作原理]]></title>
         <id>responsvie</id>
-        <link href="https://buzhifanji.github.io/vue/responsvie"/>
+        <link href="https://buzhifanji.github.io/learn-vue3/vue/responsvie"/>
         <updated>2022-11-02T12:10:02.000Z</updated>
         <summary type="html"><![CDATA[前言]]></summary>
         <content type="html"><![CDATA[<h2 id="前言">前言</h2>
@@ -66,7 +66,7 @@
     <entry>
         <title type="html"><![CDATA[Scrollycoding]]></title>
         <id>/ddt</id>
-        <link href="https://buzhifanji.github.io/vue/ddt"/>
+        <link href="https://buzhifanji.github.io/learn-vue3/vue/ddt"/>
         <updated>2022-11-01T06:47:31.000Z</updated>
         <summary type="html"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.]]></summary>
         <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.</p>
