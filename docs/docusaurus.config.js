@@ -35,24 +35,17 @@ const config = {
     locales: ["zh"],
   },
   themes: ["mdx-v2"],
-  plugins: [
-    [
-      "@docusaurus/plugin-content-blog",
-      {
-        id: "vue",
-        routeBasePath: "vue",
-        path: "./vue",
-        showReadingTime: true,
-        beforeDefaultRemarkPlugins,
-      },
-    ],
-  ],
   presets: [
     [
       "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: false,
+        docs: {
+          routeBasePath: "/",
+          sidebarPath: require.resolve("./sidebars.js"),
+          beforeDefaultRemarkPlugins,
+        },
+        blog: false,
         theme: {
           customCss: [
             require.resolve("@code-hike/mdx/styles.css"),
@@ -73,7 +66,7 @@ const config = {
           src: "img/logo.svg",
         },
         items: [
-          { to: "/vue", label: "vue3", position: "left" },
+          { to: "/vue/responsvie", label: "vue3", position: "left" },
           {
             href: "https://github.com/Buzhifanji/learn-vue3",
             label: "GitHub",
