@@ -27,7 +27,7 @@ const config = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "learn-vue3",
+  organizationName: "buzhifanji",
   projectName: "buzhifanji.github.io",
   trailingSlash: false,
   i18n: {
