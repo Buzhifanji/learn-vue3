@@ -29,3 +29,8 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.ch-spotlight-tab p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
