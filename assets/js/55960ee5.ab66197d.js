@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[121],{8070:e=>{e.exports=JSON.parse('[{"label":"vue3","permalink":"/learn-vue3/tags/vue-3","count":2},{"label":"\u54cd\u5e94\u5f0f","permalink":"/learn-vue3/tags/\u54cd\u5e94\u5f0f","count":2}]')}}]);
