@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>深入Vue3系列 Blog</title>
-        <link>https://your-docusaurus-test-site.com/vue</link>
+        <link>https://buzhifanji.github.io/vue</link>
         <description>深入Vue3系列 Blog</description>
         <lastBuildDate>Wed, 02 Nov 2022 12:10:02 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
@@ -10,7 +10,7 @@
         <language>zh</language>
         <item>
             <title><![CDATA[响应式系统的工作原理]]></title>
-            <link>https://your-docusaurus-test-site.com/vue/responsvie</link>
+            <link>https://buzhifanji.github.io/vue/responsvie</link>
             <guid>responsvie</guid>
             <pubDate>Wed, 02 Nov 2022 12:10:02 GMT</pubDate>
             <description><![CDATA[前言]]></description>
@@ -50,7 +50,7 @@
         </item>
         <item>
             <title><![CDATA[Scrollycoding]]></title>
-            <link>https://your-docusaurus-test-site.com/vue/ddt</link>
+            <link>https://buzhifanji.github.io/vue/ddt</link>
             <guid>/ddt</guid>
             <pubDate>Tue, 01 Nov 2022 06:47:31 GMT</pubDate>
             <description><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.]]></description>
