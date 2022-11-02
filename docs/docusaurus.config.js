@@ -23,7 +23,7 @@ const config = {
   title: "深入Vue3系列",
   tagline: "源码的世界",
   url: "https://buzhifanji.github.io",
-  baseUrl: "/",
+  baseUrl: "/learn-vue3/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
