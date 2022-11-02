@@ -22,13 +22,14 @@ const beforeDefaultRemarkPlugins = [
 const config = {
   title: "深入Vue3系列",
   tagline: "源码的世界",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://buzhifanji.github.io",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "learn-vue3",
+  projectName: "buzhifanji.github.io",
+  trailingSlash: false,
   i18n: {
     defaultLocale: "zh",
     locales: ["zh"],
